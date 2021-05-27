@@ -13,10 +13,14 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class ShowStudentDetailsComponent implements OnInit {
   config: any;
   collection = { count: 60, data: [] };
+  colData=[
+    {field:'studentId',header:'Student Id'},
+    {field:'firstName',header:'First Name'},
+    {field:'lastName',header:'Last Name'},
+    {field:'batchId',header:'Batch Id'},
+    {field:'gender',header:'Gender'}    
+  ];
 
-  isMasterSel: boolean;
-  categoryList: any;
-  checkedCategoryList: any;
   angForm: FormGroup;
   single_student_data: Student = new Student();
   student: Student = new Student();
@@ -24,51 +28,13 @@ export class ShowStudentDetailsComponent implements OnInit {
   page = 1;
   count = 60;
   pageSize = 3;
-  // pageSizes = [3,6,9,12,15,18,21,24,27,30]
   offset: any;
   searchKey = "";
   totalRecord = 0;
   itemsperpage = "";
 
   constructor(public studentService: StudentService, public router: Router, private fb: FormBuilder) {
-    this.isMasterSel = true;
-
-    this.categoryList = [
-      { id: 1, value: 'StudentId', isSelected: true },
-      { id: 2, value: 'FirstName', isSelected: true },
-      { id: 3, value: 'LastName', isSelected: true },
-      { id: 4, value: 'BatchId', isSelected: true },
-      { id: 5, value: 'Gender', isSelected: true },
-
-    ];
-
-    this.getCheckedItemList();
   }
-
-  checkUncheckAll() {
-    for (var i = 0; i < this.categoryList.length; i++) {
-      this.categoryList[i].isSelected = this.isMasterSel;
-    }
-    this.getCheckedItemList();
-  }
-
-  onCheckboxSelect() {
-    this.isMasterSel = this.categoryList.every(function (item: any) {
-      return item.isSelected == true;
-    })
-    this.getCheckedItemList();
-  }
-
-  getCheckedItemList() {
-    this.checkedCategoryList = [];
-    for (var i = 0; i < this.categoryList.length; i++) {
-      if (this.categoryList[i].isSelected)
-        this.checkedCategoryList.push(this.categoryList[i].value);
-    }
-  }
-
-
-
 
   pageChanged(event) {
     this.page = event;
@@ -101,35 +67,28 @@ export class ShowStudentDetailsComponent implements OnInit {
     })
   }
 
-  go(id: string) {
-    this.router.navigate(['/ShowStudent/', id]);
-  }
-
-  deleteStudentDetails(id: string) {
+  deleteStudentDetails(record: Student) {
+    
     if (confirm("Are you sure to delete")) {
-      this.studentService.deleteStudentDetails(id).subscribe(
-        () => this.refreshComponent())
+      this.studentService.deleteStudentDetails(record.studentId).subscribe(
+        () => this.getallStudentDetails()
+      )
     }
   }
 
-  refreshComponent() {
-    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['/ShowStudentDetails']);
-    });
+  onClickUpdate(record: Student){
+    this.router.navigate(['/EditStudent/', record.studentId]);
   }
-
-  // handlePageSizeChange(event: any) {
-  //   this.pageSize = event.target.value;
-  //   this.page = 1;
-  //   this.getallStudentDetails();
-  // }
-
 
   showSearch() {
     
     this.studentService.getStudentById(this.searchKey).subscribe((data) => {
       this.collection.data =  [data];
     })
+  }
+
+  rowSelection(record:Student) {
+    this.router.navigate(['/ShowStudent/', record.studentId]);
   }
 
 

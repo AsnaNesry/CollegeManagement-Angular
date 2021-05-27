@@ -22,6 +22,8 @@ import { NgbNavModule, NgbDropdownModule } from '@ng-bootstrap/ng-bootstrap';
 import { ModalComponent } from './modal/modal.component';
 import { AboutComponent } from './about/about.component';
 import { PaginationComponent } from './pagination/pagination.component';
+import { TableComponent } from './table/table.component';
+import { NgxBootstrapIconsModule, allIcons } from 'ngx-bootstrap-icons';
 
 
 
@@ -42,6 +44,7 @@ import { PaginationComponent } from './pagination/pagination.component';
     ModalComponent,
     AboutComponent,
     PaginationComponent,
+    TableComponent,
   ],
   imports: [
     BrowserModule,
@@ -51,7 +54,8 @@ import { PaginationComponent } from './pagination/pagination.component';
     HttpClientModule,
     NgxPaginationModule,
     NgbNavModule, 
-    NgbDropdownModule
+    NgbDropdownModule,
+    NgxBootstrapIconsModule.pick(allIcons),
   ],
   providers: [AuthGuardService,StudentService],
   bootstrap: [AppComponent]

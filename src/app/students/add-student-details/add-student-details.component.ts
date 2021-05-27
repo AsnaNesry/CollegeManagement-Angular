@@ -31,7 +31,7 @@ SaveStudentDetails(){
     (data : Student) =>
     console.log(data)
   );
-  alert(this.obj_s.firstName + "details saved");
+  alert(this.obj_s.firstName + " details saved");
 }
 
 

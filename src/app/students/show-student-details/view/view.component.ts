@@ -12,7 +12,7 @@ import { StudentService } from 'src/app/student.service';
 export class ViewComponent implements OnInit {
   userdata;
   studentId: string;
-  single_student_data;
+  single_student_data: Student = new Student();;
   obj_s :Student= new Student();
   constructor(private route: ActivatedRoute, public objuser:StudentService, public router:Router) {
     

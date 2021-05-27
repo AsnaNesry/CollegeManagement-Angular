@@ -36,9 +36,11 @@ export class EditComponent implements OnInit {
     this.objuser.updateStudentDetails(student).subscribe(
       (data : Student) =>
       console.log(data)
+     
+      
     );
     
-     
+    alert("Details edited successfully");
       
   }
 
